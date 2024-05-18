@@ -1,0 +1,32 @@
+/* CSS file */
+
+/* Untouched cells */
+.untouched-cell {
+    -fx-background-color: #c0c0c0; /* Light gray background */
+    -fx-border-color: #ffffff; /* White border */
+}
+
+/* Revealed cells */
+.revealed-cell {
+    -fx-background-color: #f0f0f0; /* Lighter gray background */
+    -fx-border-color: transparent; /* No border */
+}
+
+/* Mines */
+.mine-cell {
+    -fx-background-image: url('/img_1.png'); /* Tomato red background */
+    -fx-border-color: transparent; /* No border */
+}
+
+/* Flags */
+.flag-cell {
+    -fx-background-image: url('/img.png'); /* Flag icon */
+    -fx-background-size: cover;
+}
+
+/* Numbers */
+.safe-cell {
+    -fx-background-color: #dcdcdc; /* Lighter gray background */
+    -fx-border-color: transparent; /* No border */
+    -fx-text-fill: #000000; /* Black text color */
+}
