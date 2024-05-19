@@ -1,10 +1,11 @@
 package com.game.sweeper_2;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -21,17 +22,26 @@ public class HelloController {
     @FXML
     private Button ResetBtn;
 
+    @FXML
+    private Label MineCounter;
+
     private static final int ROWS = 10;
     private static final int COLS = 10;
     private static final int MINES = 20;
     private Button[][] buttons;
     private boolean[][] mineField;
     private boolean gameOver;
+    private int remainingMines;
+    private int flagsPlaced;
+    private int cellsRevealed;
 
     @FXML
     public void handleNewGame() {
         startNewGame();
         NewGameBtn.setVisible(false);
+        ResetBtn.setVisible(true); // Make Reset button visible
+        MineCounter.setVisible(true);
+        ResetBtn.setDisable(false); // Enable Reset button
     }
 
     @FXML
@@ -39,16 +49,15 @@ public class HelloController {
         startNewGame();
     }
 
-    @FXML
-    public void handleSettings() {
-        // Settings logic here
-    }
-
     private void startNewGame() {
         mainPane.getChildren().clear();
         buttons = new Button[ROWS][COLS];
         mineField = generateMineField(ROWS, COLS, MINES);
         gameOver = false;
+        remainingMines = MINES;
+        flagsPlaced = 0;
+        cellsRevealed = 0;
+        updateMineCounter();
 
         double buttonSize = 50; // Size of each cell
 
@@ -98,6 +107,8 @@ public class HelloController {
                 button.getStyleClass().add("safe-cell");
                 button.setDisable(true);
                 button.getStyleClass().add("disabled-cell");
+                cellsRevealed++;
+                checkWinCondition();
             }
         }
     }
@@ -105,11 +116,26 @@ public class HelloController {
     private void handleSecondaryClick(Button button) {
         if (!button.isDisabled()) { // Check if the cell is already revealed
             if (button.getText().isEmpty()) {
-                button.setText("F");
-                button.getStyleClass().add("flag-cell");
+                if (flagsPlaced < MINES) {
+                    button.setText("F");
+                    button.getStyleClass().add("flag-cell");
+                    flagsPlaced++;
+                    remainingMines--;
+                    updateMineCounter();
+                } else {
+                    // Show an alert if trying to place more flags than mines
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Flag Limit Reached");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You cannot place more flags than there are mines.");
+                    alert.showAndWait();
+                }
             } else {
                 button.setText("");
                 button.getStyleClass().remove("flag-cell");
+                flagsPlaced--;
+                remainingMines++;
+                updateMineCounter();
             }
         }
     }
@@ -123,6 +149,7 @@ public class HelloController {
         buttons[row][col].setDisable(true);
         buttons[row][col].getStyleClass().remove("untouched-cell");
         buttons[row][col].getStyleClass().add("disabled-cell");
+        cellsRevealed++;
 
         if (adjacentMines == 0) {
             buttons[row][col].setText("");
@@ -139,6 +166,7 @@ public class HelloController {
             buttons[row][col].setText(String.valueOf(adjacentMines));
             buttons[row][col].getStyleClass().add("safe-cell");
         }
+        checkWinCondition();
     }
 
     private boolean[][] generateMineField(int rows, int cols, int mines) {
@@ -191,5 +219,25 @@ public class HelloController {
                 buttons[row][col].setDisable(true);
             }
         }
+    }
+
+    private void updateMineCounter() {
+        MineCounter.setText("Mines: " + remainingMines);
+    }
+
+    private void checkWinCondition() {
+        if (cellsRevealed + MINES == ROWS * COLS) {
+            gameOver = true;
+            showWinMessage();
+            disableAllButtons();
+        }
+    }
+
+    private void showWinMessage() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Congratulations!");
+        alert.setHeaderText(null);
+        alert.setContentText("You have successfully cleared the minefield!");
+        alert.showAndWait();
     }
 }
