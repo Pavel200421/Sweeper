@@ -16,8 +16,8 @@ public class HelloApplication extends Application {
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setTitle("Minesweeper");
         stage.setScene(scene);
-        stage.setMinWidth(400);
-        stage.setMinHeight(400);
+        stage.setMinWidth(567);
+        stage.setMinHeight(650);
         stage.show();
     }
 
