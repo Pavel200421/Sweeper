@@ -3,6 +3,7 @@ package com.game.sweeper_2;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -24,6 +25,10 @@ public class HelloController {
 
     @FXML
     private Label MineCounter;
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private Button settingsPref;
 
     private static final int ROWS = 10;
     private static final int COLS = 10;
@@ -42,6 +47,8 @@ public class HelloController {
         ResetBtn.setVisible(true); // Make Reset button visible
         MineCounter.setVisible(true);
         ResetBtn.setDisable(false); // Enable Reset button
+        menuBar.setVisible(true);
+        settingsPref.setVisible(false);
     }
 
     @FXML
