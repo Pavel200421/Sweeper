@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class HelloApplication extends Application {
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setTitle("Minesweeper");
         stage.setScene(scene);
+        Image ico = new Image("/72.png"); stage.getIcons().add(ico);
         stage.setMinWidth(567);
         stage.setMinHeight(650);
         stage.show();

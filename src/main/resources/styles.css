@@ -1,10 +1,9 @@
-/* CSS file */
-
 /* Untouched cells */
 .untouched-cell {
     -fx-background-color: #A9A9A9; /* Light gray background */
     -fx-border-color: #ffffff; /* White border */
 }
+
 /* Revealed cells */
 .revealed-cell {
     -fx-background-color: #f0f0f0; /* Lighter gray background */
@@ -22,10 +21,11 @@
 
 /* Flags */
 .flag-cell {
-    -fx-background-image: url('/img.png'); /* Corrected path for flag image */
+    -fx-background-image: url('/flag1.png'); /* Corrected path for flag image */
     -fx-background-size: 100% 100%; /* Ensure the image covers the entire cell */
     -fx-background-position: center center; /* Center the image */
     -fx-background-color: #A9A9A9; /* Ensure background is transparent */
+    -fx-text-fill: transparent;
 }
 
 /* Numbers */
@@ -33,4 +33,35 @@
     -fx-background-color: #dcdcdc; /* Lighter gray background */
     -fx-border-color: transparent; /* No border */
     -fx-text-fill: #000000; /* Black text color */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
+
+/* Number specific colors */
+.number-1 { -fx-text-fill: blue; }
+.number-2 { -fx-text-fill: green; }
+.number-3 { -fx-text-fill: red; }
+.number-4 { -fx-text-fill: darkblue; }
+.number-5 { -fx-text-fill: brown; }
+.number-6 { -fx-text-fill: cyan; }
+.number-7 { -fx-text-fill: black; }
+.number-8 { -fx-text-fill: gray; }
+
+/* Reset btn */
+
+.ResetButton {
+    -fx-background-image: url('hl.png'); /* Путь к вашему изображению */
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+    -fx-max-width: 50px;
+    -fx-max-height: 50px;
+    -fx-background-color: black;
+    -fx-border-color: lightgrey;
+   -fx-border-width: 0;
+}
+
+
+
