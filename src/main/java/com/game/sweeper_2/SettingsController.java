@@ -3,6 +3,7 @@ package com.game.sweeper_2;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class SettingsController {
 
@@ -15,6 +16,9 @@ public class SettingsController {
     @FXML
     private TextField colsField;
 
+    private Stage stage;
+
+
     // Method to set the initial values of the text fields
     public void setInitialValues(int mines, int rows, int cols) {
         minesField.setText(String.valueOf(mines));
@@ -22,6 +26,9 @@ public class SettingsController {
         colsField.setText(String.valueOf(cols));
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
     @FXML
     public void applySettings() {
         try {
@@ -45,9 +52,12 @@ public class SettingsController {
 
             // Применяем настройки
             HelloController.setSettings(mines, rows, cols);
+
+            stage.close();
         } catch (NumberFormatException e) {
             showAlert("Please enter valid numbers.");
         }
+
     }
 
     private void showAlert(String message) {
@@ -57,4 +67,7 @@ public class SettingsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+
 }

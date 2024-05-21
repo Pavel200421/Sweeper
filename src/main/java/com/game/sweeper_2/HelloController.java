@@ -1,5 +1,4 @@
 package com.game.sweeper_2;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -37,6 +36,7 @@ public class HelloController {
     @FXML
     private ScrollPane scrollPane;
 
+
     private static final int ROWS = 10;
     private static final int COLS = 10;
     private static final int MINES = 20;
@@ -70,7 +70,7 @@ public class HelloController {
         startNewGame();
     }
 
-    private void startNewGame() {
+    public void startNewGame() {
         mainPane.getChildren().clear();
         buttons = new Button[customRows][customCols];
         mineField = generateMineField(customRows, customCols, customMines);
@@ -126,12 +126,16 @@ public class HelloController {
             // Установка сцены для нового Stage
             settingsStage.setScene(new Scene(parent));
 
+            // Установка стейджа в контроллер настроек
+            settingsController.setStage((Stage) settingsStage.getScene().getWindow());
+
             // Отображение модального окна и ожидание его закрытия
             settingsStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public static void setSettings(int mines, int rows, int cols) {
         if (mines > 0 && rows > 0 && cols > 0 && rows <= 75 && cols <= 75) {

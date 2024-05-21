@@ -12,7 +12,7 @@
 
 /* Mines */
 .mine-cell {
-    -fx-background-image: url('/72.png'); /* Corrected path for mine image */
+    -fx-background-image: url('/mineBest.png'); /* Corrected path for mine image */
     -fx-background-size: cover; /* Ensure the image covers the entire cell */
     -fx-background-position: center center; /* Center the image */
     -fx-border-color: black; /* No border */
@@ -59,7 +59,7 @@
     -fx-max-width: 50px;
     -fx-max-height: 50px;
     -fx-background-color: black;
-    -fx-border-color: lightgrey;
+    -fx-border-color: lightgray;
    -fx-border-width: 0;
 }
 
