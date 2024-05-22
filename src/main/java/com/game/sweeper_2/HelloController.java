@@ -1,17 +1,25 @@
 package com.game.sweeper_2;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.util.Random;
 
@@ -36,6 +44,8 @@ public class HelloController {
     @FXML
     private ScrollPane scrollPane;
 
+    @FXML
+    private Label timerLabel;  // Add this line
 
     private static final int ROWS = 10;
     private static final int COLS = 10;
@@ -51,9 +61,15 @@ public class HelloController {
     private static int customRows = ROWS;
     private static int customCols = COLS;
 
+    private Timeline timeline;
+    private int secondsElapsed;
+
+    private MediaPlayer mediaPlayer;
+
     @FXML
     public void handleNewGame() {
         startNewGame();
+        startTimer();  // Add this line
         NewGameBtn.setVisible(false);
         ResetText.setVisible(true);
         ResetBtn.setVisible(true); // Make Reset button visible
@@ -62,12 +78,26 @@ public class HelloController {
         menuBar.setVisible(true);
         settingsPref.setVisible(false);
         scrollPane.setVisible(true);
-
     }
+    private void playSoundEffectBlip() {
+        // Указываем путь к аудиофайлу в ресурсах
+        String path = getClass().getResource("/blip1.mp3").toString();
+        Media media = new Media(path);
 
+        // Создаем новый экземпляр MediaPlayer
+        mediaPlayer = new MediaPlayer(media);
+
+        // Воспроизводим звук
+        mediaPlayer.play();
+    }
     @FXML
     public void handleReset() {
+        stopTimer();   // Add this line
+        playSoundEffectBlip();
+        secondsElapsed = 0;  // Add this line
+        timerLabel.setText("Time: 0s");  // Add this line
         startNewGame();
+        startTimer();  // Add this line
     }
 
     public void startNewGame() {
@@ -109,33 +139,48 @@ public class HelloController {
     @FXML
     public void handleSettingsButtonClick() {
         try {
-            // Загрузка FXML-файла с окном настроек
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("settingsController.fxml"));
             Parent parent = fxmlLoader.load();
 
-            // Получение контроллера для передачи текущих значений
             SettingsController settingsController = fxmlLoader.getController();
             settingsController.setInitialValues(customMines, customRows, customCols);
 
-            // Создание нового Stage для модального окна
             Stage settingsStage = new Stage();
             Image ico = new Image("/settings.png"); settingsStage.getIcons().add(ico);
             settingsStage.initModality(Modality.APPLICATION_MODAL);
             settingsStage.setTitle("Settings");
 
-            // Установка сцены для нового Stage
             settingsStage.setScene(new Scene(parent));
 
-            // Установка стейджа в контроллер настроек
             settingsController.setStage((Stage) settingsStage.getScene().getWindow());
 
-            // Отображение модального окна и ожидание его закрытия
             settingsStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @FXML
+    public void handleRulesButtonClick() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rulesController.fxml"));
+            Parent parent = fxmlLoader.load();
+
+            RulesController rulesController = fxmlLoader.getController();
+            Stage rulesStage = new Stage();
+            Image ico = new Image("/settings.png"); rulesStage.getIcons().add(ico);
+            rulesStage.initModality(Modality.APPLICATION_MODAL);
+            rulesStage.setTitle("Rules");
+            rulesStage.setScene(new Scene(parent));
+            rulesController.setStage((Stage) rulesStage.getScene().getWindow());
+            rulesStage.setMinWidth(400);
+            rulesStage.setMinHeight(500);
+            rulesStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void setSettings(int mines, int rows, int cols) {
         if (mines > 0 && rows > 0 && cols > 0 && rows <= 75 && cols <= 75) {
@@ -147,13 +192,13 @@ public class HelloController {
 
     private void handleSecondaryClick(Button button) {
         if (!button.isDisabled()) {
-            Boolean isFlagSet = (Boolean) button.getUserData(); // Проверяем, установлен ли флажок
+            Boolean isFlagSet = (Boolean) button.getUserData();
 
-            if (isFlagSet == null || !isFlagSet) { // Если флажок не установлен
+            if (isFlagSet == null || !isFlagSet) {
                 if (flagsPlaced < customMines) {
                     button.setText("F");
                     button.getStyleClass().add("flag-cell");
-                    button.setUserData(true); // Устанавливаем состояние флажка на кнопке
+                    button.setUserData(true);
                     flagsPlaced++;
                     remainingMines--;
                     updateMineCounter();
@@ -164,10 +209,10 @@ public class HelloController {
                     alert.setContentText("You have placed the maximum number of flags.");
                     alert.showAndWait();
                 }
-            } else { // Если флажок уже установлен
-                button.setText(""); // Убираем текст кнопки
+            } else {
+                button.setText("");
                 button.getStyleClass().remove("flag-cell");
-                button.setUserData(false); // Устанавливаем состояние флажка на кнопке
+                button.setUserData(false);
                 flagsPlaced--;
                 remainingMines++;
                 updateMineCounter();
@@ -176,7 +221,7 @@ public class HelloController {
     }
 
     private void handlePrimaryClick(Button button, int row, int col) {
-        if (!gameOver && button.getText().isEmpty()) { // Добавляем проверку, что на кнопке нет текста
+        if (!gameOver && button.getText().isEmpty()) {
             button.getStyleClass().remove("untouched-cell");
             if (mineField[row][col]) {
                 button.getStyleClass().add("mine-cell");
@@ -198,11 +243,24 @@ public class HelloController {
             }
         }
     }
+
     private void updateMineCounter() {
         MineCounter.setText("Mines: " + remainingMines);
     }
+    private void playSoundEffectWarning() {
+        // Указываем путь к аудиофайлу в ресурсах
+        String path = getClass().getResource("/warning.mp3").toString();
+        Media media = new Media(path);
 
+        // Создаем новый экземпляр MediaPlayer
+        mediaPlayer = new MediaPlayer(media);
+
+        // Воспроизводим звук
+        mediaPlayer.play();
+    }
     private void showGameOver() {
+        stopTimer();
+        playSoundEffectWarning();
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game Over");
         alert.setHeaderText(null);
@@ -226,6 +284,7 @@ public class HelloController {
 
     private void checkWinCondition() {
         if (cellsRevealed == customRows * customCols - customMines) {
+            stopTimer();  // Add this line
             gameOver = true;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("You Win!");
@@ -272,39 +331,59 @@ public class HelloController {
         }
 
         int adjacentMines = countAdjacentMines(mineField, row, col);
-        Button button = buttons[row][col];
-        button.getStyleClass().remove("untouched-cell");
-        button.getStyleClass().add("safe-cell");
-        button.setDisable(true);
-        cellsRevealed++;
+        buttons[row][col].setDisable(true);
+        buttons[row][col].getStyleClass().remove("untouched-cell");
 
-        if (adjacentMines > 0) {
-            button.setText(String.valueOf(adjacentMines));
-            button.getStyleClass().add("number-" + adjacentMines);
-        } else {
+        if (adjacentMines == 0) {
+            buttons[row][col].getStyleClass().add("safe-cell");
+            cellsRevealed++;
+            checkWinCondition();
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    revealEmptyCells(row + i, col + j);
+                    if (i != 0 || j != 0) {
+                        revealEmptyCells(row + i, col + j);
+                    }
                 }
             }
+        } else {
+            buttons[row][col].setText(String.valueOf(adjacentMines));
+            buttons[row][col].getStyleClass().add("safe-cell");
+            buttons[row][col].getStyleClass().add("number-" + adjacentMines);
+            cellsRevealed++;
+            checkWinCondition();
         }
-
-        checkWinCondition();
     }
 
     @FXML
     public void initialize() {
         mainPane.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-        ResetBtn.getStyleClass().add("ResetButton"); // Добавляем стиль кнопке
-        // Устанавливаем курсор "рука" при наведении на кнопку
+        ResetBtn.getStyleClass().add("ResetButton");
         ResetBtn.setOnMouseEntered(event -> ResetBtn.setCursor(Cursor.HAND));
         ResetBtn.setOnMouseExited(event -> ResetBtn.setCursor(Cursor.DEFAULT));
         NewGameBtn.setVisible(true);
-        ResetBtn.setVisible(false); // Reset button initially hidden
-        MineCounter.setVisible(false); // Mine counter initially hidden
+        ResetBtn.setVisible(false);
+        MineCounter.setVisible(false);
         menuBar.setVisible(true);
         settingsPref.setVisible(true);
         scrollPane.setVisible(false);
+        timerLabel.setVisible(false); // Initially hidden
+    }
+
+    // Method to start the timer
+    private void startTimer() {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            secondsElapsed++;
+            timerLabel.setText("Time: " + secondsElapsed + "s");
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        timerLabel.setVisible(true);
+    }
+
+    // Method to stop the timer
+    private void stopTimer() {
+        if (timeline != null) {
+            timeline.stop();
+        }
     }
 }
-

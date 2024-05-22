@@ -3,6 +3,7 @@ package com.game.sweeper_2;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SettingsController {
@@ -15,6 +16,9 @@ public class SettingsController {
 
     @FXML
     private TextField colsField;
+
+    @FXML
+    private VBox settingsControllerWindow;
 
     private Stage stage;
 
@@ -60,6 +64,9 @@ public class SettingsController {
 
     }
 
+    public void initialize() {
+        settingsControllerWindow.getStylesheets().add(getClass().getResource("/SettingsController.css").toExternalForm());
+    }
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Settings");

@@ -65,3 +65,60 @@
 
 
 
+#timerLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+
+.rulesFxmls {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+/* Style for the main label */
+.LabelRuleClass {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 5 0 10 0;
+}
+
+/* Style for the content label */
+.LabelRulesClass {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-padding: 10;
+}
+
+
+ScrollPane {
+    -fx-padding: 10;
+}
+
+ScrollPane .scroll-bar:horizontal .increment-button,
+ScrollPane .scroll-bar:vertical .increment-button,
+ScrollPane .scroll-bar:horizontal .decrement-button,
+ScrollPane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+}
+
+ScrollPane .scroll-bar:horizontal .thumb,
+ScrollPane .scroll-bar:vertical .thumb {
+    -fx-background-color: #d3d3d3;
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+ScrollPane .scroll-bar:horizontal .track,
+ScrollPane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+ScrollPane .scroll-bar:horizontal,
+ScrollPane .scroll-bar:vertical {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
