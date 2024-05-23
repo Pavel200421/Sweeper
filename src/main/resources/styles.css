@@ -71,6 +71,10 @@
     -fx-padding: 5px;
 }
 
+.StatsTitle {
+    font-size: 18px;
+    font-weight: bold;
+}
 
 .rulesFxmls {
     -fx-background-color: #f0f0f0;

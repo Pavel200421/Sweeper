@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class HelloController {
@@ -66,6 +69,12 @@ public class HelloController {
 
     private MediaPlayer mediaPlayer;
 
+    private int gamesPlayed = 0;
+    private int gamesWon = 0;
+    private int gamesLost = 0;
+    private int bestTime = Integer.MAX_VALUE;
+
+    private List<HighScore> highScores = new ArrayList<>();
     @FXML
     public void handleNewGame() {
         startNewGame();
@@ -261,7 +270,9 @@ public class HelloController {
     private void showGameOver() {
         stopTimer();
         playSoundEffectWarning();
-        Alert alert = new Alert(AlertType.INFORMATION);
+        gamesPlayed++;
+        gamesLost++;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game Over");
         alert.setHeaderText(null);
         alert.setContentText("You clicked on a mine! Game over.");
@@ -284,9 +295,16 @@ public class HelloController {
 
     private void checkWinCondition() {
         if (cellsRevealed == customRows * customCols - customMines) {
-            stopTimer();  // Add this line
+            stopTimer();
             gameOver = true;
-            Alert alert = new Alert(AlertType.INFORMATION);
+            gamesPlayed++;
+            gamesWon++;
+            if (secondsElapsed < bestTime) {
+                bestTime = secondsElapsed;
+                highScores.add(new HighScore(secondsElapsed));
+                Collections.sort(highScores);
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("You Win!");
             alert.setHeaderText(null);
             alert.setContentText("Congratulations! You've cleared all the mines.");
@@ -351,6 +369,24 @@ public class HelloController {
             buttons[row][col].getStyleClass().add("number-" + adjacentMines);
             cellsRevealed++;
             checkWinCondition();
+        }
+    }
+    @FXML
+    public void handleShowStatistics() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("statistics.fxml"));
+            Parent parent = fxmlLoader.load();
+
+            StatisticsController statisticsController = fxmlLoader.getController();
+            statisticsController.setStatistics(gamesPlayed, gamesWon, gamesLost, bestTime, highScores);
+
+            Stage statisticsStage = new Stage();
+            statisticsStage.setTitle("Game Statistics");
+            statisticsStage.setScene(new Scene(parent));
+            statisticsController.setStage((Stage) statisticsStage.getScene().getWindow());
+            statisticsStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

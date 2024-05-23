@@ -1,0 +1,24 @@
+/* dark-theme.css */
+.root {
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: #ffffff;
+}
+
+.LabelRule, .SettingsLabelTitle, .SettingsLabelSubtitle {
+    -fx-text-fill: #ffffff;
+}
+
+.Button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #ffffff;
+}
+
+.TextField {
+    -fx-background-color: #444444;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #bbbbbb;
+}
+
+.errorLabel {
+    -fx-text-fill: #ff4444;
+}
