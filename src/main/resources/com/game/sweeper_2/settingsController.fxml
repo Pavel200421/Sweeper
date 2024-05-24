@@ -5,15 +5,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.sweeper_2.SettingsController">
+<VBox fx:id="settingsControllerWindow" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.sweeper_2.SettingsController">
    <children>
-      <Label text="Settings" />
-      <Label text="Number of Mines:" />
-      <TextField fx:id="minesField" />
-      <Label text="Rows:" />
-      <TextField fx:id="rowsField" />
-      <Label text="Columns:" />
-      <TextField fx:id="colsField" />
-      <Button  text="Apply" onAction="#applySettings" fx:id="applySettings" />
+      <Label styleClass="SettingsLabelTitle" text="Settings" />
+      <Label styleClass="SettingsLabelSubtitle" text="Number of Mines:" />
+      <TextField styleClass="text-field" fx:id="minesField" />
+      <Label styleClass="SettingsLabelSubtitle" text="Rows:" />
+      <TextField styleClass="text-field" fx:id="rowsField" />
+      <Label styleClass="SettingsLabelSubtitle" text="Columns:" />
+      <TextField styleClass="text-field" fx:id="colsField" />
+      <Button styleClass="SettingsBtnApply"  text="Apply" onAction="#applySettings" fx:id="applySettings" />
    </children>
 </VBox>
