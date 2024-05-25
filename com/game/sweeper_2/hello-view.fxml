@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.sweeper_2.HelloController">
+   <top>
+      <MenuBar fx:id="menuBar" visible="false">
+         <menus>
+            <Menu mnemonicParsing="false" text="Menu">
+               <items>
+                  <MenuItem onAction="#handleSettingsButtonClick" mnemonicParsing="false" text="Settings" />
+                  <MenuItem onAction="#handleRulesButtonClick" mnemonicParsing="false" text="User Guide" />
+                  <MenuItem onAction="#handleShowStatistics" mnemonicParsing="false" text="Statistics" />
+                  <MenuItem onAction="#handleSaveGame" mnemonicParsing="false" text="Save Game" />
+                  <MenuItem onAction="#handleLoadGame" mnemonicParsing="false" text="Load Game" />
+
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <VBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="MineCounter" text="Mines: 0" visible="false" />
+            <Label fx:id="ResetText" text="Reset" visible="false"/>
+            <Button fx:id="ResetBtn" styleClass="ResetButton" onAction="#handleReset" visible="false" />
+            <Button fx:id="NewGameBtn" onAction="#handleNewGame" text="New Game" />
+            <Label fx:id="timerLabel" text="Time: 0s"/>
+            <Button fx:id="settingsPref" onAction="#handleSettingsButtonClick" mnemonicParsing="false" text="Settings" />
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true" >
+               <content>
+                  <GridPane fx:id="mainPane" alignment="CENTER" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

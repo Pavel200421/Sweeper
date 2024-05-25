@@ -1,0 +1,44 @@
+/* Стили для контейнера */
+#settingsControllerWindow {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-background-color: #f0f0f0; /* Цвет фона */
+    -fx-padding: 20px; /* Отступы внутри контейнера */
+}
+
+/* Стили для заголовка */
+.SettingsLabelTitle {
+    -fx-font-size: 20px; /* Размер шрифта */
+    -fx-font-weight: bold; /* Жирный шрифт */
+    -fx-padding: 10px 0; /* Отступы внутри заголовка */
+}
+.SettingsLabelSubtitle {
+    -fx-font-size: 18px; /* Размер шрифта */
+}
+/* Стили для текстовых полей */
+.text-field {
+    -fx-pref-width: 150px; /* Ширина текстовых полей */
+    -fx-padding: 5px; /* Отступы внутри текстовых полей */
+}
+
+/* Стили для кнопки */
+.SettingsBtnApply {
+    -fx-background-color: #4CAF50; /* Цвет фона кнопки */
+    -fx-border-color: lightgreen; /* Цвет границ */
+    -fx-color: white;
+    -fx-text-fill: white; /* Цвет текста */
+    -fx-font-size: 16px; /* Размер шрифта */
+    -fx-pref-width: 100px; /* Ширина кнопки */
+    -fx-pref-height: 40px; /* Высота кнопки */
+    -fx-padding: 5px 10px; /* Отступы внутри кнопки */
+}
+
+/* Стили для кнопки при наведении */
+.button:hover {
+    -fx-background-color: #45a049; /* Цвет фона кнопки при наведении */
+}
+
+/* Стили для кнопки при нажатии */
+.button:pressed {
+    -fx-background-color: #3e8e41; /* Цвет фона кнопки при нажатии */
+}

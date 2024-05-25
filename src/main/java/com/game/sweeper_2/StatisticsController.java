@@ -1,12 +1,10 @@
 package com.game.sweeper_2;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
 
 public class StatisticsController {
 
@@ -42,12 +40,6 @@ public class StatisticsController {
         gamesWonLabel.setText("Games Won: " + gamesWon);
         gamesLostLabel.setText("Games Lost: " + gamesLost);
         bestTimeLabel.setText("Best Time: " + (bestTime == Integer.MAX_VALUE ? "N/A" : bestTime + "s"));
-
-//        highScoresVBox.getChildren().clear();
-//        for (HighScore score : highScores) {
-//            Label label = new Label(score.toString());
-//            highScoresVBox.getChildren().add(label);
-//        }
     }
 
     @FXML

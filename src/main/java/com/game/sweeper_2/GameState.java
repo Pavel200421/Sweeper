@@ -1,11 +1,7 @@
 package com.game.sweeper_2;
-
 import java.io.Serializable;
-import java.util.List;
 
 public class GameState implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     private boolean[][] mineField;
     private String[][] buttonStates;
     private boolean gameOver;
@@ -13,9 +9,10 @@ public class GameState implements Serializable {
     private int flagsPlaced;
     private int cellsRevealed;
     private int secondsElapsed;
+    private int rows;
+    private int cols;
 
-    // Constructors, getters, and setters
-    public GameState(boolean[][] mineField, String[][] buttonStates, boolean gameOver, int remainingMines, int flagsPlaced, int cellsRevealed, int secondsElapsed) {
+    public GameState(boolean[][] mineField, String[][] buttonStates, boolean gameOver, int remainingMines, int flagsPlaced, int cellsRevealed, int secondsElapsed, int rows, int cols) {
         this.mineField = mineField;
         this.buttonStates = buttonStates;
         this.gameOver = gameOver;
@@ -23,6 +20,8 @@ public class GameState implements Serializable {
         this.flagsPlaced = flagsPlaced;
         this.cellsRevealed = cellsRevealed;
         this.secondsElapsed = secondsElapsed;
+        this.rows = rows;
+        this.cols = cols;
     }
 
     public boolean[][] getMineField() {
@@ -51,5 +50,13 @@ public class GameState implements Serializable {
 
     public int getSecondsElapsed() {
         return secondsElapsed;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }

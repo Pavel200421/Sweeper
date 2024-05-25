@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="rulesFxml" styleClass="rulesFxmls" alignment="CENTER" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.sweeper_2.RulesController">
+    <children>
+        <Label fx:id="LabelRule" styleClass="LabelRuleClass" text="Правила игры"/>
+        <ScrollPane fx:id="scrollPaneRules" fitToWidth="true" fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox alignment="CENTER">
+                    <Label fx:id="LabelRules" styleClass="LabelRulesClass" wrapText="true" maxWidth="350" text="В начале игры у игрока есть планшет, заполненный закрытыми квадратными полями. Некоторые из этих полей скрывают мины, а некоторые нет. Задача игрока – определить под каким полем скрывается мина и помечать эти поля. Игрок должен также открыть те поля, где нет мин. Если игрок открывает поле с миной, он проигрывает. Если игрок открывает поле без мины, появляется номер, указывающий, сколько мин находится в восьми соседних полях. Базируясь на этих числах, игрок должен определить, где находятся мины. Цель игры - нахождение всех мин, посредством открытия полей, в которых нет мин."/>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <Button text="Okay" onAction="#applyRules" fx:id="applyRules" />
+    </children>
+</VBox>

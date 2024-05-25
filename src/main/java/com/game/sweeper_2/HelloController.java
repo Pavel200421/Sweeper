@@ -92,24 +92,24 @@ public class HelloController {
         scrollPane.setVisible(true);
     }
     private void playSoundEffectBlip() {
-        // Указываем путь к аудиофайлу в ресурсах
+
         String path = getClass().getResource("/blip1.mp3").toString();
         Media media = new Media(path);
 
-        // Создаем новый экземпляр MediaPlayer
+
         mediaPlayer = new MediaPlayer(media);
 
-        // Воспроизводим звук
+
         mediaPlayer.play();
     }
     @FXML
     public void handleReset() {
-        stopTimer();   // Add this line
+        stopTimer();
         playSoundEffectBlip();
-        secondsElapsed = 0;  // Add this line
-        timerLabel.setText("Time: 0s");  // Add this line
+        secondsElapsed = 0;
+        timerLabel.setText("Time: 0s");
         startNewGame();
-        startTimer();  // Add this line
+        startTimer();
     }
 
     public void startNewGame() {
@@ -122,9 +122,9 @@ public class HelloController {
         cellsRevealed = 0;
         updateMineCounter();
 
-        double buttonSize = 50; // Fixed size for each cell
+        double buttonSize = 50;
 
-        mainPane.setAlignment(Pos.CENTER); // Center the grid
+        mainPane.setAlignment(Pos.CENTER);
 
         for (int row = 0; row < customRows; row++) {
             for (int col = 0; col < customCols; col++) {
@@ -387,7 +387,7 @@ public class HelloController {
             Parent parent = fxmlLoader.load();
 
             StatisticsController statisticsController = fxmlLoader.getController();
-            statisticsController.setStatistics(gamesPlayed, gamesWon, gamesLost, bestTime /*, highScores */);
+            statisticsController.setStatistics(gamesPlayed, gamesWon, gamesLost, bestTime);
 
             Stage statisticsStage = new Stage();
             statisticsStage.setTitle("Game Statistics");
@@ -411,7 +411,7 @@ public class HelloController {
         menuBar.setVisible(true);
         settingsPref.setVisible(true);
         scrollPane.setVisible(false);
-        timerLabel.setVisible(false); // Initially hidden
+        timerLabel.setVisible(false);
     }
 
     // Method to start the timer
@@ -440,14 +440,13 @@ public class HelloController {
 
         if (file != null) {
             try {
-                GameState gameState = new GameState(mineField, getButtonStates(), gameOver, remainingMines, flagsPlaced, cellsRevealed, secondsElapsed);
+                GameState gameState = new GameState(mineField, getButtonStates(), gameOver, remainingMines, flagsPlaced, cellsRevealed, secondsElapsed, customRows, customCols);
                 GamePersistence.saveGame(gameState, file.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
     @FXML
     public void handleLoadGame() {
@@ -459,12 +458,21 @@ public class HelloController {
         if (file != null) {
             try {
                 GameState gameState = GamePersistence.loadGame(file.getPath());
-                loadGameState(gameState);
+                if (gameState.getRows() != customRows || gameState.getCols() != customCols) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Load Game Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("The saved game size does not match the current settings. Please adjust the settings to match the saved game size.");
+                    alert.showAndWait();
+                } else {
+                    loadGameState(gameState);
+                }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     private String[][] getButtonStates() {
         String[][] buttonStates = new String[customRows][customCols];
@@ -504,7 +512,6 @@ public class HelloController {
                 String state = buttonStates[row][col];
                 button.setText(state.equals("F") ? "" : state);
 
-                // Enable clicking if it's an untouched cell or a flagged cell
                 boolean isClickable = state.isEmpty() || state.equals("F");
                 button.setDisable(!isClickable);
 
@@ -512,6 +519,7 @@ public class HelloController {
 
                 if (state.equals("F")) {
                     button.getStyleClass().add("flag-cell");
+                    button.setUserData(true);
                 } else if (state.equals("M")) {
                     button.getStyleClass().add("mine-cell");
                 } else if (state.matches("\\d")) {
@@ -520,7 +528,6 @@ public class HelloController {
                 } else {
                     button.getStyleClass().add("untouched-cell");
                 }
-
             }
         }
 
@@ -528,6 +535,5 @@ public class HelloController {
             startTimer();
         }
     }
-
 
 }
