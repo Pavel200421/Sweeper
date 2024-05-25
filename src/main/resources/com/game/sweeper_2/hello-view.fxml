@@ -18,17 +18,13 @@
                <items>
                   <MenuItem onAction="#handleSettingsButtonClick" mnemonicParsing="false" text="Settings" />
                   <MenuItem onAction="#handleRulesButtonClick" mnemonicParsing="false" text="User Guide" />
+                  <MenuItem onAction="#handleShowStatistics" mnemonicParsing="false" text="Statistics" />
                </items>
             </Menu>
          </menus>
       </MenuBar>
    </top>
    <center>
-      <!--        <ImageView alignment="LEFT" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">-->
-      <!--            <image>-->
-      <!--&lt;!&ndash;                <Image url="background.jpg" />&ndash;&gt;-->
-      <!--            </image>-->
-      <!--        </ImageView>-->
       <VBox alignment="CENTER" spacing="10.0">
          <children>
             <Label fx:id="MineCounter" text="Mines: 0" visible="false" />
@@ -37,7 +33,7 @@
             <Button fx:id="NewGameBtn" onAction="#handleNewGame" text="New Game" />
             <Label fx:id="timerLabel" text="Time: 0s"/>
             <Button fx:id="settingsPref" onAction="#handleSettingsButtonClick" mnemonicParsing="false" text="Settings" />
-            <ScrollPane fx:id="scrollPane" visible="true" fitToWidth="true" fitToHeight="true">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true" >
                <content>
                   <GridPane fx:id="mainPane" alignment="CENTER" />
                </content>

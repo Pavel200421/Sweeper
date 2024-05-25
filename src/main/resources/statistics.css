@@ -1,0 +1,41 @@
+    /* statistics.css */
+
+    .StatsBoxClass {
+        -fx-background-color: lightgrey;
+        -fx-border-color: #cccccc;
+        -fx-border-width: 2;
+    }
+
+    .StatsTitle {
+        -fx-font-size: 18px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #333333;
+    }
+
+    .StatsSubtitle {
+        -fx-font-size: 16px;
+        -fx-text-fill: #555555;
+    }
+
+
+.handleCloseBtn {
+   -fx-background-color: #4CAF50; /* Цвет фона кнопки */
+    -fx-border-color: lightgreen; /* Цвет границ */
+    -fx-color: white;
+    -fx-text-fill: white; /* Цвет текста */
+    -fx-font-size: 16px; /* Размер шрифта */
+    -fx-pref-width: 100px; /* Ширина кнопки */
+    -fx-pref-height: 40px; /* Высота кнопки */
+    -fx-padding: 5px 10px; /* Отступы внутри кнопки */
+
+
+}
+/* Стили для кнопки при наведении */
+.handleCloseBtn:hover {
+    -fx-background-color: #45a049; /* Цвет фона кнопки при наведении */
+}
+
+/* Стили для кнопки при нажатии */
+.handleCloseBtn:pressed {
+    -fx-background-color: #3e8e41; /* Цвет фона кнопки при нажатии */
+}

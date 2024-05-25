@@ -21,7 +21,6 @@
 
         @FXML
         private VBox settingsControllerWindow;
-
         private Stage stage;
 
 
@@ -34,6 +33,9 @@
 
         public void setStage(Stage stage) {
             this.stage = stage;
+            this.stage.setMinWidth(350);
+            this.stage.setMinHeight(450);
+
         }
         @FXML
         public void applySettings() {
@@ -68,6 +70,7 @@
 
         public void initialize() {
             settingsControllerWindow.getStylesheets().add(getClass().getResource("/SettingsController.css").toExternalForm());
+
         }
         private void showAlert(String message) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

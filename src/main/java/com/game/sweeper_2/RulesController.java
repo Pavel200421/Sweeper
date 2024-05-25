@@ -3,6 +3,7 @@ package com.game.sweeper_2;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -14,6 +15,7 @@ public class RulesController {
     private VBox rulesFxml;
     public void setStage(Stage stage) {
         this.stage = stage;
+        Image ico = new Image("/Rules.png"); stage.getIcons().add(ico);
     }
     @FXML
     private void applyRules(){

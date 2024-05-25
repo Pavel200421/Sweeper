@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -119,7 +120,9 @@ public class HelloController {
         cellsRevealed = 0;
         updateMineCounter();
 
-        double buttonSize = 50;
+        double buttonSize = 50; // Fixed size for each cell
+
+        mainPane.setAlignment(Pos.CENTER); // Center the grid
 
         for (int row = 0; row < customRows; row++) {
             for (int col = 0; col < customCols; col++) {
@@ -127,6 +130,10 @@ public class HelloController {
                 button.getStyleClass().add("untouched-cell");
                 button.setPrefWidth(buttonSize);
                 button.setPrefHeight(buttonSize);
+                button.setMaxWidth(buttonSize);
+                button.setMaxHeight(buttonSize);
+                button.setMinWidth(buttonSize);
+                button.setMinHeight(buttonSize);
 
                 int r = row;
                 int c = col;
@@ -144,6 +151,7 @@ public class HelloController {
             }
         }
     }
+
 
     @FXML
     public void handleSettingsButtonClick() {
@@ -177,7 +185,6 @@ public class HelloController {
 
             RulesController rulesController = fxmlLoader.getController();
             Stage rulesStage = new Stage();
-            Image ico = new Image("/settings.png"); rulesStage.getIcons().add(ico);
             rulesStage.initModality(Modality.APPLICATION_MODAL);
             rulesStage.setTitle("Rules");
             rulesStage.setScene(new Scene(parent));
@@ -378,7 +385,7 @@ public class HelloController {
             Parent parent = fxmlLoader.load();
 
             StatisticsController statisticsController = fxmlLoader.getController();
-            statisticsController.setStatistics(gamesPlayed, gamesWon, gamesLost, bestTime, highScores);
+            statisticsController.setStatistics(gamesPlayed, gamesWon, gamesLost, bestTime /*, highScores */);
 
             Stage statisticsStage = new Stage();
             statisticsStage.setTitle("Game Statistics");
