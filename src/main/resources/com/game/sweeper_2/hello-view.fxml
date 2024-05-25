@@ -19,6 +19,9 @@
                   <MenuItem onAction="#handleSettingsButtonClick" mnemonicParsing="false" text="Settings" />
                   <MenuItem onAction="#handleRulesButtonClick" mnemonicParsing="false" text="User Guide" />
                   <MenuItem onAction="#handleShowStatistics" mnemonicParsing="false" text="Statistics" />
+                  <MenuItem onAction="#handleSaveGame" mnemonicParsing="false" text="Save Game" />
+                  <MenuItem onAction="#handleLoadGame" mnemonicParsing="false" text="Load Game" />
+
                </items>
             </Menu>
          </menus>

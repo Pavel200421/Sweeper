@@ -20,7 +20,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -429,4 +431,103 @@ public class HelloController {
             timeline.stop();
         }
     }
+    @FXML
+    public void handleSaveGame() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Minesweeper Save Files", "*.mswp"));
+        File file = fileChooser.showSaveDialog(mainPane.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                GameState gameState = new GameState(mineField, getButtonStates(), gameOver, remainingMines, flagsPlaced, cellsRevealed, secondsElapsed);
+                GamePersistence.saveGame(gameState, file.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @FXML
+    public void handleLoadGame() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load Game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Minesweeper Save Files", "*.mswp"));
+        File file = fileChooser.showOpenDialog(mainPane.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                GameState gameState = GamePersistence.loadGame(file.getPath());
+                loadGameState(gameState);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String[][] getButtonStates() {
+        String[][] buttonStates = new String[customRows][customCols];
+        for (int row = 0; row < customRows; row++) {
+            for (int col = 0; col < customCols; col++) {
+                Button button = buttons[row][col];
+                if (button.getStyleClass().contains("flag-cell")) {
+                    buttonStates[row][col] = "F";
+                } else if (button.getStyleClass().contains("mine-cell")) {
+                    buttonStates[row][col] = "M";
+                } else if (button.getStyleClass().contains("safe-cell")) {
+                    buttonStates[row][col] = button.getText();
+                } else {
+                    buttonStates[row][col] = "";
+                }
+            }
+        }
+        return buttonStates;
+    }
+
+
+    private void loadGameState(GameState gameState) {
+        stopTimer();
+        mineField = gameState.getMineField();
+        gameOver = gameState.isGameOver();
+        remainingMines = gameState.getRemainingMines();
+        flagsPlaced = gameState.getFlagsPlaced();
+        cellsRevealed = gameState.getCellsRevealed();
+        secondsElapsed = gameState.getSecondsElapsed();
+        updateMineCounter();
+        timerLabel.setText("Time: " + secondsElapsed + "s");
+
+        String[][] buttonStates = gameState.getButtonStates();
+        for (int row = 0; row < customRows; row++) {
+            for (int col = 0; col < customCols; col++) {
+                Button button = buttons[row][col];
+                String state = buttonStates[row][col];
+                button.setText(state.equals("F") ? "" : state);
+
+                // Enable clicking if it's an untouched cell or a flagged cell
+                boolean isClickable = state.isEmpty() || state.equals("F");
+                button.setDisable(!isClickable);
+
+                button.getStyleClass().removeAll("untouched-cell", "safe-cell", "mine-cell", "flag-cell", "number-1", "number-2", "number-3", "number-4", "number-5", "number-6", "number-7", "number-8");
+
+                if (state.equals("F")) {
+                    button.getStyleClass().add("flag-cell");
+                } else if (state.equals("M")) {
+                    button.getStyleClass().add("mine-cell");
+                } else if (state.matches("\\d")) {
+                    button.getStyleClass().add("safe-cell");
+                    button.getStyleClass().add("number-" + state);
+                } else {
+                    button.getStyleClass().add("untouched-cell");
+                }
+
+            }
+        }
+
+        if (!gameOver) {
+            startTimer();
+        }
+    }
+
+
 }
